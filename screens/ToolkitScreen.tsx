@@ -1,5 +1,4 @@
 import { CategoryCard } from '@/components/CategoryCard';
-import { Header } from '@/components/Header';
 import { ChurchColors } from '@/constants/theme';
 import React from 'react';
 import {
@@ -70,8 +69,6 @@ export const ToolkitScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
-
       <FlatList
         data={toolkitItems}
         renderItem={renderToolkitCard}

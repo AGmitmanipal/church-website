@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 
 import { CategoryCard } from '@/components/CategoryCard';
-import { Header } from '@/components/Header';
-import { TabSwitch } from '@/components/TabSwitch';
 import { ChurchColors } from '@/constants/theme';
 
 interface SectionData {
@@ -32,9 +30,6 @@ const fullWidthCards: SectionData[] = [
 ];
 
 export const HomeScreen = () => {
-  const [activeTab, setActiveTab] = useState(0);
-  const tabs = ['Home', 'Toolkit', 'Resources'];
-
   const renderSermonCard = ({ item }: { item: SectionData }) => (
     <View style={styles.gridItemWrapper}>
       <CategoryCard
@@ -58,51 +53,29 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* SERMONS */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>SERMONS</Text>
 
-      <TabSwitch
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+          <FlatList
+            data={sermonCategories}
+            renderItem={renderSermonCard}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            scrollEnabled={false}
+            columnWrapperStyle={styles.columnWrapper}
+          />
+        </View>
 
-      {activeTab === 0 && (
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          {/* SERMONS */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>SERMONS</Text>
-
-            <FlatList
-              data={sermonCategories}
-              renderItem={renderSermonCard}
-              keyExtractor={(item) => item.id}
-              numColumns={2}
-              scrollEnabled={false}
-              columnWrapperStyle={styles.columnWrapper}
-            />
+        {/* FULL WIDTH SECTIONS */}
+        {fullWidthCards.map((item) => (
+          <View key={item.id} style={styles.section}>
+            <Text style={styles.sectionTitle}>{item.title}</Text>
+            {renderFullWidthCard({ item })}
           </View>
-
-          {/* FULL WIDTH SECTIONS */}
-          {fullWidthCards.map((item) => (
-            <View key={item.id} style={styles.section}>
-              <Text style={styles.sectionTitle}>{item.title}</Text>
-              {renderFullWidthCard({ item })}
-            </View>
-          ))}
-        </ScrollView>
-      )}
-
-      {activeTab === 1 && (
-        <View style={styles.placeholderScreen}>
-          <Text style={styles.placeholderText}>Toolkit Screen</Text>
-        </View>
-      )}
-
-      {activeTab === 2 && (
-        <View style={styles.placeholderScreen}>
-          <Text style={styles.placeholderText}>Resources Screen</Text>
-        </View>
-      )}
+        ))}
+      </ScrollView>
     </View>
   );
 };
