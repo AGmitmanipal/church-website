@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface TabSwitchProps {
   tabs: string[];
@@ -12,8 +13,9 @@ export const TabSwitch: React.FC<TabSwitchProps> = ({
   activeTab,
   onTabChange,
 }) => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, 24) }]}>
       {tabs.map((tab, index) => {
         const isActive = activeTab === index;
         return (
@@ -39,18 +41,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 24,
+    paddingTop: 16,
+    paddingBottom: 8,
     backgroundColor: '#0D1117',
-    borderBottomWidth: 1,
-    borderBottomColor: '#1A212D',
+    borderTopWidth: 1,
+    borderTopColor: '#1A212D',
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 20,
   },
   tab: {
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    marginHorizontal: 3,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    flex: 1,
+    maxWidth: 120,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E02D2D',
   },
   inactiveTab: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#1C2128',
     borderWidth: 1,
     borderColor: '#3a414e',
   },

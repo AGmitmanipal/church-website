@@ -4,8 +4,10 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { CategoryCard } from '@/components/CategoryCard';
 import { ChurchColors } from '@/constants/theme';
@@ -16,12 +18,6 @@ interface SectionData {
   image?: string;
 }
 
-const sermonCategories: SectionData[] = [
-  { id: '1', title: 'Video', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' },
-  { id: '2', title: 'Audio', image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop' },
-  { id: '3', title: 'Notes', image: 'https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=400&h=400&fit=crop' },
-  { id: '4', title: 'Series', image: 'https://images.unsplash.com/photo-1500622944204-200b992ceeb1?w=400&h=400&fit=crop' },
-];
 
 const fullWidthCards: SectionData[] = [
   { id: 'music', title: 'APC MUSIC', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=400&fit=crop' },
@@ -29,16 +25,9 @@ const fullWidthCards: SectionData[] = [
   { id: 'kids', title: 'APC KIDS VIDEOS', image: 'https://images.unsplash.com/photo-1503919545889-48145c75a58f?w=800&h=400&fit=crop' },
 ];
 
+// Full width cards section data
+
 export const HomeScreen = () => {
-  const renderSermonCard = ({ item }: { item: SectionData }) => (
-    <View style={styles.gridItemWrapper}>
-      <CategoryCard
-        title={item.title}
-        imageUrl={item.image}
-        onPress={() => console.log(item.title)}
-      />
-    </View>
-  );
 
   const renderFullWidthCard = ({ item }: { item: SectionData }) => (
     <View style={styles.fullWidthCardWrapper}>
@@ -54,19 +43,7 @@ export const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* SERMONS */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>SERMONS</Text>
 
-          <FlatList
-            data={sermonCategories}
-            renderItem={renderSermonCard}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            scrollEnabled={false}
-            columnWrapperStyle={styles.columnWrapper}
-          />
-        </View>
 
         {/* FULL WIDTH SECTIONS */}
         {fullWidthCards.map((item) => (
@@ -96,14 +73,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: ChurchColors.primary,
     marginBottom: 12,
-  },
-  columnWrapper: {
-    justifyContent: 'space-between',
-  },
-  gridItemWrapper: {
-    flex: 1,
-    marginBottom: 12,
-    aspectRatio: 1,
   },
   fullWidthCardWrapper: {
     height: 200,

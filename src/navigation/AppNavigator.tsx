@@ -1,9 +1,11 @@
-import React from 'react';
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import MainScreen from '../../screens/MainScreen';
+import { ChurchColors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DarkTheme, NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ContractorsScreen } from '../../screens/ContractorsScreen';
+import MainScreen from '../../screens/MainScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -17,7 +19,24 @@ const theme = {
   },
 };
 
-const PlaceholderScreen = () => <View style={styles.placeholder} />;
+const PlaceholderScreen = ({ navigation, route }: any) => (
+  <View style={styles.placeholder}>
+    <View style={styles.header}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.navigate('Main')}
+      >
+        <Ionicons name="arrow-back" size={24} color={ChurchColors.primary} />
+        <Text style={styles.backButtonText}>Back</Text>
+      </TouchableOpacity>
+    </View>
+    <View style={styles.content}>
+      <Ionicons name="construct-outline" size={64} color={ChurchColors.textTertiary} />
+      <Text style={styles.title}>{route.name}</Text>
+      <Text style={styles.subtitle}>This section is coming soon.</Text>
+    </View>
+  </View>
+);
 
 export default function AppNavigator() {
   return (
@@ -45,6 +64,13 @@ export default function AppNavigator() {
             drawerIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />
           }}
         />
+        <Drawer.Screen
+          name="Contractors"
+          component={ContractorsScreen}
+          options={{
+            drawerIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />
+          }}
+        />
         <Drawer.Screen name="Church Locations" component={PlaceholderScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="location" size={24} color={color} /> }} />
         <Drawer.Screen name="Bible (NET 2016)" component={PlaceholderScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="book" size={24} color={color} /> }} />
         <Drawer.Screen name="Live Stream" component={PlaceholderScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="videocam" size={24} color={color} /> }} />
@@ -65,5 +91,44 @@ const styles = StyleSheet.create({
   placeholder: {
     flex: 1,
     backgroundColor: '#0D1117',
+  },
+  header: {
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+  },
+  backButtonText: {
+    color: '#ffffff',
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+  },
+  title: {
+    color: '#ffffff',
+    fontSize: 24,
+    fontWeight: '700',
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: '#9CA3AF',
+    fontSize: 16,
+    marginTop: 8,
+    textAlign: 'center',
   },
 });
